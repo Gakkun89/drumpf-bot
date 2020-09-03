@@ -4,12 +4,16 @@ require 'pragmatic_segmenter'
 file_data = File.open('data/mein-kampf.txt')
 
 # pragmatise the whole thing, then each element write to json
+text = file_data.read.gsub("\f", "").gsub("\n", " ").gsub('"', "'")
+segmenter = PragmaticSegmenter::Segmenter.new(text: text)
+segmented = segmenter.segment
 
+json_hash = segmented.to_h {|sentence| [segmented.index(sentence), sentence]}
 
-File.open('mktest.txt', 'w') do |f|
-  spaced = file_data.read.gsub("\f", "").gsub("\n", " ")
-  segmented = PragmaticSegmenter::Segmenter.new(text: spaced)
-
-  f.write segmented.segment
-
+File.open("data/mk.json","w") do |f|
+  f.write(JSON.pretty_generate(json_hash))
 end
+
+
+
+
