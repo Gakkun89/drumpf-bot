@@ -52,5 +52,4 @@ def add_hashtag(quote, tag_num = nil, loop_num = 0)
     quote
   end
 end
-# Post to twitter
 # puts tweet_builder('data/mk.json')
